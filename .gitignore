@@ -1,0 +1,38 @@
+# Виртуальное окружение
+venv/
+.venv/
+env/
+
+# Секреты
+.env
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# База данных
+*.db
+*.sqlite3
+data/archive.db
+
+# Логи
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Шрифты — хранятся в LFS
+# (assets/ включён в репо через Git LFS)
