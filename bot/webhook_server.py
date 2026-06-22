@@ -5,7 +5,7 @@ import logging
 
 from aiohttp import web
 
-from bot.config import TRIBUTE_API_KEY, TRIBUTE_PRODUCT_AI_ID, TRIBUTE_PRODUCT_EXPERT_ID, AI_PRICE, EXPERT_PRICE
+from bot.config import TRIBUTE_API_KEY, TRIBUTE_PRODUCT_AI_IDS, TRIBUTE_PRODUCT_EXPERT_IDS, TRIBUTE_PRODUCT_TEST_ID, AI_PRICE, EXPERT_PRICE
 
 logger = logging.getLogger(__name__)
 
@@ -50,9 +50,9 @@ async def handle_tribute_webhook(request: web.Request) -> web.Response:
         logger.warning(f"Tribute webhook: не найден telegram_id или product_id, payload={payload}")
         return web.Response(status=200)
 
-    if product_id == TRIBUTE_PRODUCT_AI_ID:
+    if product_id in TRIBUTE_PRODUCT_AI_IDS or product_id == TRIBUTE_PRODUCT_TEST_ID:
         amount, service_type, label = AI_PRICE, "ai", "Типирование ИИ"
-    elif product_id == TRIBUTE_PRODUCT_EXPERT_ID:
+    elif product_id in TRIBUTE_PRODUCT_EXPERT_IDS:
         amount, service_type, label = EXPERT_PRICE, "expert", "Экспертный разбор"
     else:
         logger.info(f"Tribute webhook: неизвестный product_id={product_id}, игнорируем")
