@@ -22,7 +22,7 @@ TRIBUTE_API_KEY: str = os.getenv("TRIBUTE_API_KEY", "")
 TRIBUTE_PRODUCT_AI_IDS: set[int] = {130557, 130602}
 TRIBUTE_PRODUCT_EXPERT_IDS: set[int] = {130596, 130618}
 TRIBUTE_PRODUCT_TEST_ID: int = 131665
-TRIBUTE_LINK_AI: str = "https://t.me/tribute/app?startapp=pxYu"
+TRIBUTE_LINK_AI: str = "https://t.me/tribute/app?startapp=pyfD"
 TRIBUTE_LINK_EXPERT: str = "https://t.me/tribute/app?startapp=pxYK"
 
 # Цены в центах EUR (700 = 7 EUR, 2500 = 25 EUR)
