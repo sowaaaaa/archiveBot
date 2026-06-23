@@ -262,6 +262,15 @@ async def reject_payment(payment_id: int) -> dict | None:
     return dict(row)
 
 
+async def get_user(telegram_id: int) -> dict | None:
+    async with aiosqlite.connect(DB_PATH) as db:
+        db.row_factory = aiosqlite.Row
+        row = await (await db.execute(
+            "SELECT * FROM users WHERE telegram_id=?", (telegram_id,)
+        )).fetchone()
+    return dict(row) if row else None
+
+
 async def get_user_lang(telegram_id: int) -> str:
     async with aiosqlite.connect(DB_PATH) as db:
         row = await (await db.execute(

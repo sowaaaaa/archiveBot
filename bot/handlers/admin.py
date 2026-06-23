@@ -13,8 +13,9 @@ from bot.keyboards.inline import (
 from bot.database.db import (
     get_stats, get_recent_users, get_expert_requests, get_all_telegram_ids,
     update_expert_status, get_bot_text, set_bot_text, get_pending_payments,
-    confirm_payment, reject_payment,
+    confirm_payment, reject_payment, add_balance,
 )
+from bot.config import AI_PRICE, EXPERT_PRICE
 
 router = Router()
 
@@ -247,7 +248,10 @@ async def admin_requests(callback: CallbackQuery):
             info_lines.append(f"🏰 Происх.: {req['origin']}")
         if req.get("anthropometry"):
             info_lines.append(f"📏 Антропометрия: {req['anthropometry']}")
-        info_lines.append(f"💬 <a href='tg://user?id={req['telegram_id']}'>Написать</a>")
+        if req.get("username"):
+            info_lines.append(f"💬 <a href='https://t.me/{req['username']}'>Написать @{req['username']}</a>")
+        else:
+            info_lines.append(f"💬 <a href='tg://user?id={req['telegram_id']}'>Написать</a>")
 
         await callback.message.answer(
             "\n".join(info_lines),
@@ -278,6 +282,84 @@ async def reject_request(callback: CallbackQuery):
     await callback.answer("❌ Отклонено")
     await callback.message.edit_reply_markup(reply_markup=None)
     await callback.message.answer(f"❌ Заявка #{request_id} отклонена.")
+
+
+# ── Выдать бесплатный разбор ─────────────────────────────────────────────────
+
+@router.callback_query(F.data == "admin_grant")
+async def admin_grant(callback: CallbackQuery, state: FSMContext):
+    if not _is_admin(callback.from_user.id):
+        return await callback.answer("Нет доступа", show_alert=True)
+    await callback.answer()
+    await callback.message.answer(
+        "🎁 <b>ВЫДАТЬ БЕСПЛАТНЫЙ РАЗБОР</b>\n\n"
+        "Введи Telegram ID пользователя:",
+        parse_mode="HTML",
+        reply_markup=admin_back_keyboard(),
+    )
+    await state.set_state(AdminStates.grant_enter_id)
+
+
+@router.message(AdminStates.grant_enter_id)
+async def grant_enter_id(message: Message, state: FSMContext):
+    if not _is_admin(message.from_user.id):
+        return
+    if not message.text or not message.text.strip().lstrip("-").isdigit():
+        await message.answer("⚠️ Введи числовой Telegram ID.")
+        return
+    await state.update_data(grant_user_id=int(message.text.strip()))
+    from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [
+            InlineKeyboardButton(text="🤖 Типирование ИИ", callback_data="grant_ai"),
+            InlineKeyboardButton(text="👥 Экспертный разбор", callback_data="grant_expert"),
+        ],
+        [InlineKeyboardButton(text="◀️ Назад", callback_data="admin_back")],
+    ])
+    await message.answer("Выбери тип разбора:", reply_markup=kb)
+    await state.set_state(AdminStates.grant_choose_service)
+
+
+@router.callback_query(F.data.in_({"grant_ai", "grant_expert"}), AdminStates.grant_choose_service)
+async def grant_choose_service(callback: CallbackQuery, state: FSMContext, bot: Bot):
+    if not _is_admin(callback.from_user.id):
+        return await callback.answer("Нет доступа", show_alert=True)
+
+    data = await state.get_data()
+    user_id = data.get("grant_user_id")
+    service_type = "ai" if callback.data == "grant_ai" else "expert"
+    amount = AI_PRICE if service_type == "ai" else EXPERT_PRICE
+    label = "Типирование ИИ" if service_type == "ai" else "Экспертный разбор"
+
+    await add_balance(user_id, amount)
+    await callback.answer("✅ Выдано")
+    await callback.message.answer(
+        f"✅ Пользователю <code>{user_id}</code> выдан бесплатный <b>{label}</b>.",
+        parse_mode="HTML",
+        reply_markup=admin_back_keyboard(),
+    )
+
+    import os
+    from aiogram.types import FSInputFile
+    from bot.i18n import t
+    from bot.database.db import get_user_lang
+    from bot.keyboards.inline import start_after_payment_keyboard
+    try:
+        lang = await get_user_lang(user_id)
+    except Exception:
+        lang = "ru"
+    text = t("payment_confirmed", lang)
+    kb = start_after_payment_keyboard(service_type, lang)
+    img = "assets/payment.jpg"
+    try:
+        if os.path.exists(img):
+            await bot.send_photo(user_id, FSInputFile(img), caption=text, parse_mode="HTML", reply_markup=kb)
+        else:
+            await bot.send_message(user_id, text, parse_mode="HTML", reply_markup=kb)
+    except Exception as e:
+        await callback.message.answer(f"⚠️ Не удалось уведомить пользователя: {e}")
+
+    await state.set_state(AdminStates.panel)
 
 
 # ── Рассылка ──────────────────────────────────────────────────────────────────

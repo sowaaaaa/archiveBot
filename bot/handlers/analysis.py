@@ -15,23 +15,6 @@ EXPERT_PRICE_EUR = EXPERT_PRICE // 100
 
 router = Router()
 
-TG_LIMIT = 4096
-
-
-def _split_message(text: str, limit: int = TG_LIMIT) -> list[str]:
-    if len(text) <= limit:
-        return [text]
-    parts = []
-    while text:
-        if len(text) <= limit:
-            parts.append(text)
-            break
-        cut = text.rfind("\n", 0, limit)
-        if cut == -1:
-            cut = limit
-        parts.append(text[:cut])
-        text = text[cut:].lstrip("\n")
-    return parts
 
 
 async def _animate_loading(chat_id: int, bot: Bot, stop_event: asyncio.Event, lang: str = "ru"):
@@ -106,6 +89,23 @@ async def start_analysis(message: Message, state: FSMContext, bot: Bot):
     stop_event = asyncio.Event()
     anim_task = asyncio.create_task(_animate_loading(message.chat.id, bot, stop_event, lang))
 
+    user = message.from_user
+    uname = f"@{user.username}" if user.username else f"tg://user?id={user.id}"
+    notify_targets = list(ADMIN_IDS)
+    if ADMIN_CHAT_ID and ADMIN_CHAT_ID not in notify_targets:
+        notify_targets.append(ADMIN_CHAT_ID)
+    for admin_id in notify_targets:
+        try:
+            await bot.send_message(
+                admin_id,
+                f"🤖 <b>Новый ИИ-разбор</b>\n"
+                f"👤 {user.first_name} ({uname})\n"
+                f"🆔 <code>{user.id}</code>",
+                parse_mode="HTML",
+            )
+        except Exception:
+            pass
+
     try:
         profile_bytes: bytes | None = data.get("profile_photo")
         fullbody_bytes: bytes | None = data.get("fullbody_photo")
@@ -116,29 +116,25 @@ async def start_analysis(message: Message, state: FSMContext, bot: Bot):
             "anthropometry": data.get("anthropometry"),
         }
 
-        result_text, result_data, landmark_image = await analyze_photos(
+        _, result_data, _ = await analyze_photos(
             front_bytes, profile_bytes, fullbody_bytes, extra, lang=lang
         )
 
         stop_event.set()
         await anim_task
 
-        parts = _split_message(result_text)
-        last_msg = await message.answer(parts[0], parse_mode="HTML")
-        for part in parts[1:]:
-            last_msg = await message.answer(part, parse_mode="HTML")
-
         await increment_analysis(message.chat.id)
 
-        # PDF — ответ на последнее сообщение с текстом (визуально вместе)
         try:
             from bot.services.pdf_service import generate_result_pdf
             from aiogram.types import BufferedInputFile
             pdf_bytes = await asyncio.get_event_loop().run_in_executor(
                 None, generate_result_pdf, result_data, lang
             )
-            pdf_caption = "📄 Хроника — полный разбор" if lang == "ru" else "📄 Chronicle — full analysis"
-            await last_msg.reply_document(
+            user = message.from_user
+            username = user.first_name or user.username or "пользователь"
+            pdf_caption = f"📄 Хроника — {username}" if lang == "ru" else f"📄 Chronicle — {username}"
+            await message.answer_document(
                 BufferedInputFile(pdf_bytes, filename="chronicle.pdf"),
                 caption=pdf_caption,
             )

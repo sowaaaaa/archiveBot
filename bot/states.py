@@ -25,3 +25,5 @@ class AdminStates(StatesGroup):
     broadcast_confirm = State()
     edit_text_select = State()
     edit_text_input = State()
+    grant_enter_id = State()
+    grant_choose_service = State()

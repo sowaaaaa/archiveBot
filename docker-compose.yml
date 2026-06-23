@@ -3,12 +3,10 @@ services:
     image: ${DOCKER_IMAGE:-archivebot:latest}
     env_file: .env
     volumes:
-      - db:/app/data/archive.db
-      - knowledge:/app/data/knowledge
+      - data:/app/data
     ports:
       - "8080:8080"
     restart: unless-stopped
 
 volumes:
-  db:
-  knowledge:
+  data:

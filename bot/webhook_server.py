@@ -5,7 +5,7 @@ import logging
 
 from aiohttp import web
 
-from bot.config import TRIBUTE_API_KEY, TRIBUTE_PRODUCT_AI_IDS, TRIBUTE_PRODUCT_EXPERT_IDS, TRIBUTE_PRODUCT_TEST_ID, AI_PRICE, EXPERT_PRICE
+from bot.config import TRIBUTE_API_KEY, TRIBUTE_PRODUCT_AI_IDS, TRIBUTE_PRODUCT_EXPERT_IDS, TRIBUTE_PRODUCT_TEST_ID, AI_PRICE, EXPERT_PRICE, ADMIN_IDS, ADMIN_CHAT_ID
 
 logger = logging.getLogger(__name__)
 
@@ -58,11 +58,28 @@ async def handle_tribute_webhook(request: web.Request) -> web.Response:
         logger.info(f"Tribute webhook: неизвестный product_id={product_id}, игнорируем")
         return web.Response(status=200)
 
-    from bot.database.db import add_balance
+    from bot.database.db import add_balance, get_user
     await add_balance(telegram_id, amount)
     logger.info(f"Начислено {amount} центов EUR пользователю {telegram_id} за {label}")
 
     if _bot:
+        user = await get_user(telegram_id)
+        name = user.get("first_name", "") if user else ""
+        uname = f"@{user['username']}" if user and user.get("username") else f"tg://user?id={telegram_id}"
+        admin_text = (
+            f"💳 <b>Новая оплата</b>\n"
+            f"👤 {name} ({uname})\n"
+            f"🆔 <code>{telegram_id}</code>\n"
+            f"📌 {label} — <b>{amount // 100} EUR</b>"
+        )
+        notify_targets = list(ADMIN_IDS)
+        if ADMIN_CHAT_ID and ADMIN_CHAT_ID not in notify_targets:
+            notify_targets.append(ADMIN_CHAT_ID)
+        for admin_id in notify_targets:
+            try:
+                await _bot.send_message(admin_id, admin_text, parse_mode="HTML")
+            except Exception as e:
+                logger.warning(f"Не удалось уведомить админа {admin_id}: {e}")
         import os
         from aiogram.types import FSInputFile
         from bot.keyboards.inline import start_after_payment_keyboard

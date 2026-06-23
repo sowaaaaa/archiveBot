@@ -18,45 +18,37 @@ _T: dict[str, dict[str, str]] = {
             '<tg-emoji emoji-id="5388922215347534633">📜</tg-emoji> <b><i>Выбери путь, и хроники будут открыты.</i></b>'
         ),
         "what_is": (
-            '<tg-emoji emoji-id="6030848053177486888">❓</tg-emoji><b>ЧТО ТАКОЕ АРХИВ ПРОИСХОЖДЕНИЯ</b>\n\n'
-            "Это сервис для анализа внешности и определения антропологического фенотипа "
-            "на основе фотографий.\n\n"
-            "━━━━━━━━━━━━━━━━━━━━\n\n"
-            '<tg-emoji emoji-id="5931614414351372818">🤖</tg-emoji> <b>Типирование ИИ — 7 EUR</b>\n'
-            "Нейросеть изучает твои фотографии и определяет:\n"
-            "✦ форму лица и основные черты\n"
-            "✦ антропологический фенотип\n"
-            "✦ процентное сходство с типами\n"
-            "Результат — мгновенно.\n\n"
-            "━━━━━━━━━━━━━━━━━━━━\n\n"
-            '<tg-emoji emoji-id="5886412370347036129">👤</tg-emoji> <b>Экспертный разбор — 25 EUR</b>\n'
-            "Живой специалист по типологии лично изучает твой облик и готовит:\n"
-            "✦ детальный разбор каждой черты\n"
-            "✦ полную генеалогическую карту фенотипа\n"
-            "✦ исторические параллели\n"
-            "Результат — в течение 24 часов.\n\n"
-            "━━━━━━━━━━━━━━━━━━━━\n\n"
-            '<tg-emoji emoji-id="5951846549288917006">🔒</tg-emoji> <i>Фотографии не хранятся и удаляются после обработки.</i>'
+            "<b>Как работает AntroLore:</b>\n\n"
+            " <b>Специфика антропологии:</b>\n"
+            "Человеческий лик изменчив. Разница между фенотипами и расами в антропологии составляет "
+            "всего от 1 до 3 миллиметров. Достаточно слегка изменить ракурс, поднять подбородок или "
+            "включить другой свет — и автоматический алгоритм может выдать другой результат. Именно "
+            "поэтому автоматический скан на разных фото может незначительно отличаться.\n\n"
+            " <b>Автоматический скан:</b>\n"
+            "Система вычисляет индексы лица, пропорции и метрики на основе присланных вами данных, "
+            "чтобы дать первое, мгновенное приближение.\n\n"
+            "♰ <b>Вердикт Эксперта (Рекомендуется):</b>\n"
+            "Чтобы узнать истину, выберите Экспертный разбор. Наш живой эксперт (Архивариус) вручную "
+            "нивелирует искажения камеры, сопоставит ваши точные замеры тела, высчитает пропорции черепа "
+            "и вынесет окончательный, проверенный человеком вердикт о вашем этно-миксе и происхождении."
         ),
 
-        # ── Кнопки главного меню ─────────────────────────────────────────────────
-        "btn_ai": "Типирование",
-        "btn_expert": "Эксперт",
-        "btn_what_is": "Что это",
+        "btn_ai": "Фенотипирование",
+        "btn_expert": "Экспертный разбор",
+        "btn_what_is": "Как это работает",
         "btn_language": "Язык",
         "btn_back": "« В главное меню",
         "btn_skip": "Пропустить »",
         "btn_add_fullbody": "Добавить фото в рост",
         "btn_add_data": "Добавить данные",
         "btn_start_analysis": "Начать анализ",
-        "btn_request_expert": "📜 Заказать экспертный разбор",
+        "btn_request_expert": " Заказать экспертный разбор",
         "btn_back_archive": "« Вернуться в архив",
         "btn_new_analysis": "🔄 Новый анализ",
         "btn_pay_tribute": "Оплатить через Tribute",
         "btn_start_ai": "Начать типирование ИИ",
         "btn_start_expert": "Начать экспертный разбор",
 
-        # ── Выбор типа анализа ───────────────────────────────────────────────────
         "analysis_type_select": (
             "📖 <b>ВЫБОР ПУТИ</b>\n\n"
             "<i>Архивариус указывает на два тома, лежащих перед тобой...</i>\n\n"
@@ -80,7 +72,7 @@ _T: dict[str, dict[str, str]] = {
             "<i>Архивариус раскрывает книгу записей и указывает на сумму...</i>\n\n"
             '<tg-emoji emoji-id="5796440171364749940">📌</tg-emoji>Услуга: <b>{label}</b>\n'
             '<tg-emoji emoji-id="6037083366438737901">💎</tg-emoji>К оплате: <b>{amount} EUR</b>\n\n'
-            "━━━━━━━━━━━━━━━━━━━━\n\n"
+            "· · ·\n\n"
             "Нажми кнопку ниже, чтобы перейти к оплате через Tribute.\n\n"
             "<i>После оплаты доступ откроется автоматически — уведомление придёт в этот чат.</i>"
         ),
@@ -91,7 +83,8 @@ _T: dict[str, dict[str, str]] = {
         ),
         "payment_rejected": (
             "❌ <b>Оплата отклонена.</b>\n\n"
-            "Если это ошибка — обратись к администратору."
+            "<i>Архивариус не нашёл записи о твоём взносе...</i>\n\n"
+            "Если считаешь, что произошла ошибка — напиши в поддержку: @DerDu9"
         ),
         "service_ai": "Типирование ИИ",
         "service_expert": "Экспертный разбор",
@@ -131,16 +124,19 @@ _T: dict[str, dict[str, str]] = {
 
         # ── Сбор фото ────────────────────────────────────────────────────────────
         "front_photo_request": (
-            '<tg-emoji emoji-id="5388922215347534633">📜</tg-emoji> <b>ШАГ I: ОБЛИК АНФАС</b>\n\n'
-            "<i>Архивариус поднимает перо и раскрывает чистый лист манускрипта...</i>\n\n"
-            "Передай фотографию своего лика <b>в полное лицо</b>.\n\n"
-            "✦ Взгляд <b>направлен прямо</b>\n"
-            "✦ Освещение <b>равномерное</b>\n"
-            "✦ Выражение лица — <b>нейтральное</b>\n\n"
-            "<i>Пусть черты говорят сами за себя.</i>"
+            '<tg-emoji emoji-id="5388922215347534633">📜</tg-emoji> <b>ШАГ I / III — АНФАС</b>\n\n'
+            "♰ <b>Архивариус требует точности.</b>\n"
+            "Чтобы свести к минимуму погрешности в 1-3 мм, твой лик должен соответствовать "
+            "<b>Строгим Правилам:</b>\n\n"
+            "1. Строго анфас и профиль. Никаких наклонов головы.\n"
+            "2. Нейтральное выражение лица. Без улыбок и прищура.\n"
+            "3. Хорошее, ровное освещение без глубоких теней на лице.\n"
+            "4. Держи камеру минимум в 1.5 метрах от лица (используй зум), чтобы избежать "
+            "искажения линзы смартфона.\n\n"
+            "<i>Пришли фотографию анфас, чтобы открыть хроники...</i>"
         ),
         "profile_photo_request": (
-            '<tg-emoji emoji-id="5388922215347534633">📜</tg-emoji> <b>ШАГ II: ПРОФИЛЬ</b>\n\n'
+            '<tg-emoji emoji-id="5388922215347534633">📜</tg-emoji> <b>ШАГ II / III — ПРОФИЛЬ</b>\n\n'
             "<i>Архивариус перелистывает страницу манускрипта...</i>\n\n"
             "Теперь передай фотографию своего лика <b>в профиль</b> — вид сбоку.\n\n"
             "✦ Поверни <b>голову ровно на 90°</b>\n"
@@ -148,7 +144,7 @@ _T: dict[str, dict[str, str]] = {
             "✦ Волосы не должны закрывать черты"
         ),
         "optional_data_request": (
-            '<tg-emoji emoji-id="5226512880362332956">📖</tg-emoji> <b>ДОПОЛНИТЕЛЬНЫЕ СВЕДЕНИЯ</b>\n\n'
+            '<tg-emoji emoji-id="5226512880362332956">📖</tg-emoji> <b>ШАГ III / III — ДОПОЛНИТЕЛЬНЫЕ СВЕДЕНИЯ</b>\n\n'
             "<i>Архивариус готовится дополнить хронику...</i>\n\n"
             "Ты можешь предоставить дополнительные сведения для более точного анализа. "
             "Каждый пункт необязателен — пропусти, если не желаешь раскрывать.\n\n"
@@ -294,40 +290,35 @@ _T: dict[str, dict[str, str]] = {
             '<tg-emoji emoji-id="5388922215347534633">📜</tg-emoji> <b><i>Choose your path, and the chronicles shall be revealed.</i></b>'
         ),
         "what_is": (
-            '<tg-emoji emoji-id="6030848053177486888">❓</tg-emoji><b>WHAT IS THE ARCHIVE OF ORIGIN</b>\n\n'
-            "This is a service for facial analysis and anthropological phenotype determination "
-            "based on photographs.\n\n"
-            "━━━━━━━━━━━━━━━━━━━━\n\n"
-            '<tg-emoji emoji-id="5931614414351372818">🤖</tg-emoji> <b>AI Typing — 7 EUR</b>\n'
-            "The neural network studies your photos and determines:\n"
-            "✦ face shape and main features\n"
-            "✦ anthropological phenotype\n"
-            "✦ percentage similarity to racial types\n"
-            "Result — instantly.\n\n"
-            "━━━━━━━━━━━━━━━━━━━━\n\n"
-            '<tg-emoji emoji-id="5886412370347036129">👤</tg-emoji> <b>Expert Analysis — 25 EUR</b>\n'
-            "A live typology specialist personally studies your appearance and prepares:\n"
-            "✦ detailed breakdown of each feature\n"
-            "✦ complete genealogical phenotype map\n"
-            "✦ historical parallels\n"
-            "Result — within 24 hours.\n\n"
-            "━━━━━━━━━━━━━━━━━━━━\n\n"
-            '<tg-emoji emoji-id="5951846549288917006">🔒</tg-emoji> <i>Photos are not stored and are deleted after processing.</i>'
+            "<b>How AntroLore works:</b>\n\n"
+            " <b>The Challenge of Anthropology:</b>\n"
+            "Human features are fluid. The physical difference between distinct phenotypes and races "
+            "can be as minimal as 1 to 3 millimeters. A slight change in camera angle, lighting, or "
+            "head tilt can completely alter how the automated algorithm perceives your bone structure. "
+            "This is why automated scanning (PhenoTyping) on different photos may sometimes yield "
+            "varying results.\n\n"
+            " <b>The Automated Scan:</b>\n"
+            "Our system calculates facial indexes, proportions, and metrics based on your uploaded "
+            "files to give you an initial, instant approximation of your roots.\n\n"
+            "♰ <b>The Expert Verdict (Highly Recommended):</b>\n"
+            "To find the absolute truth, choose Expert Review. Our living Archivist will manually "
+            "neutralize camera distortions, evaluate your body measurements, calculate exact skull "
+            "indices, and deliver a definitive, human-verified report on your ethnic mix and ancestry."
         ),
 
         # ── Buttons ──────────────────────────────────────────────────────────────
-        "btn_ai": "AI Typing",
-        "btn_expert": "Expert",
-        "btn_what_is": "What is this",
+        "btn_ai": "PhenoTyping",
+        "btn_expert": "Expert Review",
+        "btn_what_is": "How it works",
         "btn_language": "Language",
         "btn_back": "« Back to menu",
         "btn_skip": "Skip »",
         "btn_add_fullbody": "Add full-body photo",
         "btn_add_data": "Add data",
         "btn_start_analysis": "Start analysis",
-        "btn_request_expert": "📜 Order expert analysis",
+        "btn_request_expert": " Order expert analysis",
         "btn_back_archive": "« Return to archive",
-        "btn_new_analysis": "🔄 New analysis",
+        "btn_new_analysis": " New analysis",
         "btn_pay_tribute": "Pay via Tribute",
         "btn_start_ai": "Start AI Typing",
         "btn_start_expert": "Start Expert Analysis",
@@ -356,7 +347,7 @@ _T: dict[str, dict[str, str]] = {
             "<i>The archivist opens the ledger and points to the amount...</i>\n\n"
             '<tg-emoji emoji-id="5796440171364749940">📌</tg-emoji>Service: <b>{label}</b>\n'
             '<tg-emoji emoji-id="6037083366438737901">💎</tg-emoji>To pay: <b>{amount} EUR</b>\n\n'
-            "━━━━━━━━━━━━━━━━━━━━\n\n"
+            "· · ·\n\n"
             "Press the button below to proceed to payment via Tribute.\n\n"
             "<i>After payment, access will open automatically — a notification will come to this chat.</i>"
         ),
@@ -367,7 +358,8 @@ _T: dict[str, dict[str, str]] = {
         ),
         "payment_rejected": (
             "❌ <b>Payment declined.</b>\n\n"
-            "If this is an error — contact the administrator."
+            "<i>The archivist found no record of your contribution...</i>\n\n"
+            "If you believe this is an error — contact support: @DerDu9"
         ),
         "service_ai": "AI Typing",
         "service_expert": "Expert Analysis",
@@ -407,16 +399,18 @@ _T: dict[str, dict[str, str]] = {
 
         # ── Photo collection ─────────────────────────────────────────────────────
         "front_photo_request": (
-            '<tg-emoji emoji-id="5388922215347534633">📜</tg-emoji> <b>STEP I: FRONTAL PORTRAIT</b>\n\n'
-            "<i>The archivist raises the quill and opens a fresh page of the manuscript...</i>\n\n"
-            "Send a photograph of your face <b>straight on</b>.\n\n"
-            "✦ Gaze <b>directed forward</b>\n"
-            "✦ <b>Even</b> lighting\n"
-            "✦ <b>Neutral</b> expression\n\n"
-            "<i>Let your features speak for themselves.</i>"
+            '<tg-emoji emoji-id="5388922215347534633">📜</tg-emoji> <b>STEP I / III — EN FACE</b>\n\n'
+            "♰ <b>The Archivist demands precision.</b>\n"
+            "To minimize errors in the 1-3mm range, your photo must follow the "
+            "<b>Sacred Rules:</b>\n\n"
+            "1. Strict full-face (en face) and profile. No head tilts.\n"
+            "2. Neutral expression. No smiling, no squinting.\n"
+            "3. Good, even lighting. No deep shadows on the face.\n"
+            "4. Keep the camera at least 1.5 meters away (use zoom) to avoid lens distortion.\n\n"
+            "<i>Send your photo to open the chronicles...</i>"
         ),
         "profile_photo_request": (
-            '<tg-emoji emoji-id="5388922215347534633">📜</tg-emoji> <b>STEP II: PROFILE</b>\n\n'
+            '<tg-emoji emoji-id="5388922215347534633">📜</tg-emoji> <b>STEP II / III — PROFILE</b>\n\n'
             "<i>The archivist turns the manuscript page...</i>\n\n"
             "Now send a photograph of your face <b>in profile</b> — side view.\n\n"
             "✦ Turn <b>head exactly 90°</b>\n"
@@ -424,7 +418,7 @@ _T: dict[str, dict[str, str]] = {
             "✦ Hair should not cover facial features"
         ),
         "optional_data_request": (
-            "📖 <b>ADDITIONAL INFORMATION</b>\n\n"
+            '<tg-emoji emoji-id="5226512880362332956">📖</tg-emoji> <b>STEP III / III — ADDITIONAL INFO</b>\n\n'
             "<i>The archivist prepares to add to the chronicle...</i>\n\n"
             "You may provide additional information for more accurate analysis. "
             "Each point is optional — skip if you prefer not to share.\n\n"

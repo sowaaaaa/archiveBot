@@ -126,6 +126,7 @@ def admin_panel_keyboard() -> InlineKeyboardMarkup:
         [InlineKeyboardButton(text="💳 Платежи на проверке", callback_data="admin_payments")],
         [InlineKeyboardButton(text="👥 Пользователи", callback_data="admin_users")],
         [InlineKeyboardButton(text="📋 Заявки на разбор", callback_data="admin_requests")],
+        [InlineKeyboardButton(text="🎁 Выдать бесплатный разбор", callback_data="admin_grant")],
         [InlineKeyboardButton(text="📢 Рассылка", callback_data="admin_broadcast")],
         [InlineKeyboardButton(text="✏️ Редактировать тексты", callback_data="admin_texts")],
     ])
